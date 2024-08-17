@@ -1,10 +1,15 @@
 import java.util.regex.Pattern
 
 plugins {
-    id "fabric-loom" version "1.5-SNAPSHOT"
+    id "fabric-loom" version "1.6-SNAPSHOT"
     id "com.matthewprenger.cursegradle" version "1.4.0"
     id "com.modrinth.minotaur" version "2.+"
+    id 'maven-publish'
+    id 'java-library'
 }
+
+apply plugin: 'maven-publish'
+apply plugin: 'java-library'
 
 version = project.mod_version + "-fabric-" + project.minecraft_suffix
 group = project.maven_group
@@ -99,7 +104,7 @@ loom {
 }
 
 tasks.withType(JavaCompile).configureEach {
-    // Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
+    // Minecraft 1.21 upwards uses Java 21.
     it.options.release = Integer.parseInt((String) project.java_target)
 }
 

@@ -32,7 +32,7 @@ public class FusionBlockModel extends BlockModel {
 
         @Nullable
         @Override
-        public BakedModel bake(ModelBaker modelBaker, Function<Material,TextureAtlasSprite> function, ModelState modelState, ResourceLocation resourceLocation){
+        public BakedModel bake(ModelBaker modelBaker, Function<Material, TextureAtlasSprite> function, ModelState modelState) {
             return null;
         }
     };
@@ -48,9 +48,9 @@ public class FusionBlockModel extends BlockModel {
     }
 
     @Override
-    public BakedModel bake(ModelBaker baker, BlockModel someOtherModel, Function<Material,TextureAtlasSprite> spriteGetter, ModelState modelTransform, ResourceLocation modelLocation, boolean gui3d){
+    public BakedModel bake(ModelBaker modelBaker, BlockModel blockModel, Function<Material, TextureAtlasSprite> function, ModelState modelState, boolean bl) {
         // Let the custom model handle the actual baking
-        ModelBakingContext context = new ModelBakingContextImpl(baker, spriteGetter, modelTransform, modelLocation);
+        ModelBakingContext context = new ModelBakingContextImpl(modelBaker, function, modelState, blockModel.parentLocation);
         return this.model.bake(context);
     }
 

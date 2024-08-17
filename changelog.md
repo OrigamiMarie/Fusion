@@ -1,3 +1,6 @@
+### Fusion 1.1.2
+- Fusion for Minecraft 1.21.1
+
 ### Fusion 1.1.1
 - Added `match_state` connection predicate
 - Added `is_face_visible` connection predicate

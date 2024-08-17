@@ -54,10 +54,10 @@ public class PathPackResourcesMixin implements PackResourcesExtension {
 
         // Check if the overrides folder contains the requested file
         Path namespaceFolder = this.overridesFolderRoot.resolve(type.getDirectory()).resolve(location.getNamespace());
-        IoSupplier<InputStream> supplier = FileUtil.decomposePath(location.getPath()).get().map(list -> {
+        IoSupplier<InputStream> supplier = FileUtil.decomposePath(location.getPath()).map(list -> {
             Path path = FileUtil.resolvePath(namespaceFolder, list);
             return PathPackResources.returnFileIfExists(path);
-        }, o -> null);
+        }).getOrThrow();
         if(supplier != null)
             ci.setReturnValue(supplier);
     }
@@ -101,13 +101,13 @@ public class PathPackResourcesMixin implements PackResourcesExtension {
 
         // First send all override folder entries, then ignore regular entries which were overridden
         Set<ResourceLocation> overriddenLocations = new HashSet<>();
-        FileUtil.decomposePath(path).get().ifLeft(list -> {
+        FileUtil.decomposePath(path).ifSuccess(list -> {
             Path namespaceFolder = this.overridesFolderRoot.resolve(type.getDirectory()).resolve(namespace);
             PathPackResources.listPath(namespace, namespaceFolder, list, (location, streamSupplier) -> {
                 overriddenLocations.add(location);
                 output.accept(location, streamSupplier);
             });
-        }).ifRight(partialResult -> PathPackResources.LOGGER.error("Invalid path {}: {}", path, partialResult.message()));
+        }).ifError(partialResult -> PathPackResources.LOGGER.error("Invalid path {}: {}", path, partialResult.message()));
 
         // Filter all output resources
         return (location, streamSupplier) -> {
