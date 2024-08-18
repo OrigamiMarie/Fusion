@@ -15,17 +15,6 @@ targetCompatibility = JavaLanguageVersion.of(project.java_target)
 
 println("Java: " + System.getProperty("java.version") + " JVM: " + System.getProperty("java.vm.version") + "(" + System.getProperty("java.vendor") + ") Arch: " + System.getProperty("os.arch"))
 
-publishing {
-    publications {
-        myLib(MavenPublication) {
-            from components.java
-        }
-    }
-    repositories {
-        mavenLocal()
-    }
-}
-
 repositories {
     flatDir {
         dirs "libs"
