@@ -4,12 +4,7 @@ plugins {
     id "fabric-loom" version "1.6-SNAPSHOT"
     id "com.matthewprenger.cursegradle" version "1.4.0"
     id "com.modrinth.minotaur" version "2.+"
-    id 'maven-publish'
-    id 'java-library'
 }
-
-apply plugin: 'maven-publish'
-apply plugin: 'java-library'
 
 version = project.mod_version + "-fabric-" + project.minecraft_suffix
 group = project.maven_group
@@ -19,6 +14,17 @@ sourceCompatibility = JavaLanguageVersion.of(project.java_target)
 targetCompatibility = JavaLanguageVersion.of(project.java_target)
 
 println("Java: " + System.getProperty("java.version") + " JVM: " + System.getProperty("java.vm.version") + "(" + System.getProperty("java.vendor") + ") Arch: " + System.getProperty("os.arch"))
+
+publishing {
+    publications {
+        myLib(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
+}
 
 repositories {
     flatDir {
